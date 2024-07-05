@@ -22,13 +22,15 @@ class UpdateXmlData extends Command
         $file_type = $file_type_checker->checkFileType($file_path);
         if ($file_type != "xml") {
             $this->error($file_type);
+            Log::channel('custom')->error($file_type);
             return;
         }
 
         $xml_service = new XmlService($this);
-        $data = $xml_service->readXmlFile($file_path);
+        $data = $xml_service->readXmlFile($file_path, false);
         if (!$data)
             return;
+
         foreach ($data as $value) {
             $request = new UpdateXmlRequest($value['entity_id']);
             if (!$this->validateChunk($request, $value)) {
@@ -37,8 +39,6 @@ class UpdateXmlData extends Command
             }
             Product::updateOrCreate(['sku' => $value['sku']], $value);
         }
-
-        $this->info('Data validation successfully completed without any errors.');
         $this->info('Data updated successfully into the database.');
     }
 
@@ -48,10 +48,13 @@ class UpdateXmlData extends Command
         $validator = Validator::make($value, $request->rules());
         if ($validator->fails()) {
             foreach ($validator->errors()->all() as $error) {
-                Log::warning('Entity ID:' . $value['entity_id'] . ' - ' . '' . $error);
+                Log::channel('custom')->warning(
+                    'Entity ID:' . $value['entity_id'] . ' - ' . '' . $error
+                );
             }
             return false;
         }
+
         return true;
     }
 }

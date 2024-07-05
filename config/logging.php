@@ -57,6 +57,11 @@ return [
             'channels' => ['single'],
             'ignore_exceptions' => false,
         ],
+        'custom' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/xml_operation.log'),
+            'ignore_exceptions' => false,
+        ],
 
         'single' => [
             'driver' => 'single',
