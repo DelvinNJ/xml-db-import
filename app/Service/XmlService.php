@@ -14,6 +14,7 @@ class XmlService
     {
         $this->command = $command;
     }
+
     public function readXmlFile($file_path, $mode = true)
     {
         libxml_use_internal_errors(true);
@@ -33,6 +34,7 @@ class XmlService
             return false;
         }
     }
+
     private function handleXmlErrors()
     {
         $errors = libxml_get_errors();
@@ -49,6 +51,8 @@ class XmlService
         libxml_clear_errors();
         return;
     }
+
+    // Parse XML content
     private function parseXMLContent($xml_content, $mode)
     {
         $data = [];
@@ -57,7 +61,7 @@ class XmlService
         foreach ($xml_content as $value) {
             $entity_id = (string) $value->entity_id;
             $sku = (string) $value->sku;
-            if (in_array($entity_id, $entity_ids) || in_array($sku, $skus) && $mode) {
+            if ($mode && (in_array($entity_id, $entity_ids) || in_array($sku, $skus))) {
                 $message = "Duplicated entries found: entity_id - " . $entity_id;
                 $this->command->error($message);
                 Log::channel('custom')->error($message);

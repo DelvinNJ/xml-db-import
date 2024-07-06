@@ -11,7 +11,7 @@
         <ul class="list">
             <li class="item">
                 <a target="_blank"
-                    href="https://github.com/DelvinNJ/xml-db-import/blob/log-file-operation/README.md#running-unit-tests">
+                    href="https://github.com/DelvinNJ/xml-db-import/blob/main/README.md#running-unit-tests">
                     <span class="icon">
                         <i class="	fa fa-terminal"></i>
                     </span>

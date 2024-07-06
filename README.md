@@ -25,8 +25,15 @@ cp .env.example .env
 ```http
 php artisan key:generate
 ```
+### Database Setup
+
 - Configure the database in .env file.
-- Run database migrations to set up the database schema:
+- Create the SQLite database file: 
+```http
+touch database/db.sqlite
+```
+
+Run database migrations to set up the database schema:
 ```http
 php artisan migrate
 ```

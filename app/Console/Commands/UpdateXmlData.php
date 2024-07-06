@@ -18,6 +18,7 @@ class UpdateXmlData extends Command
     public function handle()
     {
         $file_path = $this->argument('file');
+        // Check file type
         $file_type_checker = new FileType();
         $file_type = $file_type_checker->checkFileType($file_path);
         if ($file_type != "xml") {
@@ -26,23 +27,33 @@ class UpdateXmlData extends Command
             return;
         }
 
+        // Read XML content
         $xml_service = new XmlService($this);
         $data = $xml_service->readXmlFile($file_path, false);
         if (!$data)
             return;
 
+        // create progress bar
+        $progress_bar = $this->output->createProgressBar(count($data));
+        $progress_bar->start();
+
         foreach ($data as $value) {
             $request = new UpdateXmlRequest($value['entity_id']);
             if (!$this->validateChunk($request, $value)) {
                 $this->line('<fg=yellow>Warning:</> ' . "Validation error occurred");
+                $progress_bar->finish();
+                $this->newLine();
                 return;
             }
             Product::updateOrCreate(['sku' => $value['sku']], $value);
+            $progress_bar->advance();
         }
+        $progress_bar->finish();
+        $this->newLine();
         $this->info('Data updated successfully into the database.');
     }
 
-
+    // Data validation
     private function validateChunk($request, $value)
     {
         $validator = Validator::make($value, $request->rules());
