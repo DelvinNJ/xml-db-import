@@ -70,8 +70,8 @@ class XmlService
 
             $data[] = [
                 'entity_id' => $entity_id,
-                'category_name' => $sku,
-                'sku' => $value->sku,
+                'category_name' => $value->CategoryName,
+                'sku' => $sku,
                 'name' => $value->name,
                 'description' => $value->description,
                 'short_desc' => $value->shortdesc,

@@ -40,16 +40,16 @@ class UpdateXmlData extends Command
         foreach ($data as $value) {
             $request = new UpdateXmlRequest($value['entity_id']);
             if (!$this->validateChunk($request, $value)) {
+                $this->newLine();
                 $this->line('<fg=yellow>Warning:</> ' . "Validation error occurred");
                 $progress_bar->finish();
-                $this->newLine();
                 return;
             }
             Product::updateOrCreate(['sku' => $value['sku']], $value);
             $progress_bar->advance();
         }
-        $progress_bar->finish();
         $this->newLine();
+        $progress_bar->finish();
         $this->info('Data updated successfully into the database.');
     }
 

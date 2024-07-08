@@ -53,6 +53,9 @@ To store XML data into the database from a file:
 php artisan store-xml-data "file_name"
 ```
 Replace "file_name" with the actual path of your XML file.
+```http
+php artisan store-xml-data "file_name"
+```
 #### Update XML Data
 
 To update XML data from a file:
@@ -60,7 +63,9 @@ To update XML data from a file:
 php artisan update-xml-data "file_name"
 ```
 Replace "file_name" with the actual path of your XML file.
-
+```http
+php artisan update-xml-data feed.xml
+```
 
 
 ### Logging
